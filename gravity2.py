@@ -61,7 +61,9 @@ def play(targetDist):
 
         if diffSet[0] == 0:                                            #tests if rockets is 0, exits
             print("You ran out of rockets.")
-            exit()
+            stillPlay = input("Do you want to start another game? Y/N? : ").lower()
+            if playAgain(stillPlay) is True:
+                main()    
 
         if calcHit(shotDist[0], targetDist, diffSet[1]) is True:                #Calculates whether or not rocket hit target, generates score, prints eval and asks user if they want to play another game
             userScore = getScore(diffSet[0], shotDist[0], targetDist, diffSet[2])
@@ -135,6 +137,7 @@ def evalScore(playerScore):
         score = fileLine.split('-')
 
         if playerScore > int(score[1]):
+            drawHit()
             print("Success! You hit the target")
             print("You'd make Tyrone Slothrop proud with a score of {0:.0f}.\n" .format(playerScore))
             userName = input("Enter your name: ")
@@ -191,6 +194,25 @@ def drawLogo():
         time.sleep(.05)
     logo.close()
 
+
+def drawHit():
+    f = open('hit.art')
+    offset = 1486
+    
+    for r in range(7):
+        #line = f.readlines(1485)
+        #for n in range(24):
+        #    print(line[n].rstrip())
+        #time.sleep(.5)
+        
+        f.seek(offset * r)
+        line = f.readlines(1485)
+        for n in range(24):
+            print(line[n].rstrip())
+
+        time.sleep(.5)
+        clear(55)
+    f.close()
 
 
 def clear(lines):
