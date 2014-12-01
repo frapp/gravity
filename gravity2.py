@@ -50,7 +50,13 @@ def play(targetDist):
 
         shotDist = calcDist(playerAngle,playerVelocity)
         diffSet[0] = diffSet[0] -1
-        print("\nYour rocket flew {0:.2f} miles in {1:.2f} minutes" .format(shotDist[0], shotDist[1]))
+        if round(shotDist[0],0) == 0:
+            print("The rocket returned down on the launchpad after {0} minutes, killing everyone.\n" .format(round(shotDist[1],2)))
+            stillPlay = input("Do you want to start another game? Y/N? : ").lower()
+            if playAgain(stillPlay) is True:
+                main()
+
+        print("\nYour rocket flew {0:.2f} miles in {1:.2f} minutes" .format(round(shotDist[0],2), round(shotDist[1],2)))
         print("You have {0} rockets left" .format(diffSet[0]))
 
         if diffSet[0] == 0:                                            #tests if rockets is 0, exits
