@@ -6,10 +6,8 @@ import random
 import time
 import readline
 
-
-
 def main():
-    target = random.randint(500,3000)                #creates target distance
+    target = random.randint(500, 3000)                #creates target distance
     drawLogo()
     #target = 500                                    #angle 50, vel 67
     play(target)
@@ -18,12 +16,12 @@ def main():
 def play(targetDist):
     clear(50)
     diffSet = setDiff()
-    
+
     while diffSet[0] > 0:
-        
+
         print("Your target distance is: {0:d}" .format(targetDist))
         print("You have {0:d} rockets.\n" .format(diffSet[0]))
-        
+
         while True:                                                    #user input angle and confirms if it's between 1 and 90
             try:
                 playerAngle = float(input("Input your angle:"))
@@ -38,32 +36,32 @@ def play(targetDist):
 
         while True:                                                    #user input velocity and confirms it it's 1 and 500
             try:
-                playerVelocity = float(input("Input your velocity:"))    
+                playerVelocity = float(input("Input your velocity:"))
                 if (playerVelocity > 0 and playerVelocity < 501):
                     break
-                else:                
-                    print("Enter a value between 1 and 500") 
+                else:
+                    print("Enter a value between 1 and 500")
                     continue
             except ValueError:
                 print("Enter a number.")
 
 
-        shotDist = calcDist(playerAngle,playerVelocity)
+        shotDist = calcDist(playerAngle, playerVelocity)
         diffSet[0] = diffSet[0] -1
-        if round(shotDist[0],0) == 0:
-            print("The rocket returned down on the launchpad after {0} minutes, killing everyone.\n" .format(round(shotDist[1],2)))
+        if round(shotDist[0], 0) == 0:
+            print("The rocket returned down on the launchpad after {0} minutes, killing everyone.\n" .format(round(shotDist[1], 2)))
             stillPlay = input("Do you want to start another game? Y/N? : ").lower()
             if playAgain(stillPlay) is True:
                 main()
 
-        print("\nYour rocket flew {0:.2f} miles in {1:.2f} minutes" .format(round(shotDist[0],2), round(shotDist[1],2)))
+        print("\nYour rocket flew {0:.2f} miles in {1:.2f} minutes" .format(round(shotDist[0], 2), round(shotDist[1], 2)))
         print("You have {0} rockets left" .format(diffSet[0]))
 
         if diffSet[0] == 0:                                            #tests if rockets is 0, exits
             print("You ran out of rockets.")
             stillPlay = input("Do you want to start another game? Y/N? : ").lower()
             if playAgain(stillPlay) is True:
-                main()    
+                main()
 
         if calcHit(shotDist[0], targetDist, diffSet[1]) is True:                #Calculates whether or not rocket hit target, generates score, prints eval and asks user if they want to play another game
             userScore = getScore(diffSet[0], shotDist[0], targetDist, diffSet[2])
@@ -71,7 +69,7 @@ def play(targetDist):
             evalScore(userScore)
             stillPlay = input("Do you want to start another game? Y/N? : ").lower()
             if playAgain(stillPlay) is True:
-                main()            
+                main()
 
         elif calcHit(shotDist[0], targetDist, diffSet[1]) is False:
             print("You missed.\n")
@@ -85,7 +83,7 @@ def play(targetDist):
 
 
 def calcHit(dist, targetDist, diffRange):
-    if (round(dist,0) > (targetDist - diffRange) and round(dist, 0) < (targetDist + diffRange)):
+    if (round(dist, 0) > (targetDist - diffRange) and round(dist, 0) < (targetDist + diffRange)):
         return True
     else:
         return False
@@ -94,7 +92,7 @@ def calcHit(dist, targetDist, diffRange):
 
 
 def calcDist(plyrAngl,plyrVel):
-    gravity = 9.81                #gravity 9.81 m/s^2    
+    gravity = 9.81                #gravity 9.81 m/s^2
     velInitX = plyrVel * math.cos(math.radians(plyrAngl))    #creates Vix
     velInitY = plyrVel * math.sin(math.radians(plyrAngl))    #creates Viy
     timeInAir = 2 * (velInitY / gravity)              #solves for time
@@ -102,21 +100,21 @@ def calcDist(plyrAngl,plyrVel):
     return (distanceX, timeInAir)                    #returns horizontal distance, time in air
 
 
-def playAgain(stillPlay):                                    
+def playAgain(stillPlay):
     valid = {'y', 'ye', 'yes', 'n', 'no' }
     validY = {'ye', 'y', 'yes'}
     validN = { 'n', 'no'}
 
-    while True:        
-            if stillPlay in valid:
-                if stillPlay in validN:
-                    print("Exiting")
-                    exit()
-                elif stillPlay in validY:
-                    break
-            else:
-                print("Please enter Y/N")
-                continue
+    while True:
+        if stillPlay in valid:
+            if stillPlay in validN:
+                print("Exiting")
+                exit()
+            elif stillPlay in validY:
+                break
+        else:
+            print("Please enter Y/N")
+            continue
     return True
 
 def getScore(rocketsLeft, rcktDist, trgtDist, difficulty):
@@ -125,13 +123,13 @@ def getScore(rocketsLeft, rcktDist, trgtDist, difficulty):
     return playerScore
 
 def evalScore(playerScore):
-    
+
     clear(100)
     hscore = open('highscore.txt')
     data = hscore.readlines()
     hscore.close()
     hscore = open('highscore.txt')
-    
+
     for n in range(10):
         fileLine = hscore.readline()
         score = fileLine.split('-')
@@ -198,13 +196,13 @@ def drawLogo():
 def drawHit():
     f = open('hit.art')
     offset = 1486
-    
+
     for r in range(7):
         #line = f.readlines(1485)
         #for n in range(24):
         #    print(line[n].rstrip())
         #time.sleep(.5)
-        
+
         f.seek(offset * r)
         line = f.readlines(1485)
         for n in range(24):
