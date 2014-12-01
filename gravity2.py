@@ -106,15 +106,15 @@ def playAgain(stillPlay):
     validN = { 'n', 'no'}
 
     while True:
-            if stillPlay in valid:
-                if stillPlay in validN:
-                    print("Exiting")
-                    exit()
-                elif stillPlay in validY:
-                    break
-            else:
-                print("Please enter Y/N")
-                continue
+        if stillPlay in valid:
+            if stillPlay in validN:
+                print("Exiting")
+                exit()
+            elif stillPlay in validY:
+                break
+        else:
+            print("Please enter Y/N")
+            continue
     return True
 
 def getScore(rocketsLeft, rcktDist, trgtDist, difficulty):
