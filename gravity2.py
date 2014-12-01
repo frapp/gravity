@@ -7,8 +7,9 @@ import time
 import readline
 
 def main():
-    target = random.randint(500, 3000)                #creates target distance
-    drawLogo()
+    target = random.randint(500, 3000)
+    clear(55)                #creates target distance
+    draw('logo.art',257)
     #target = 500                                    #angle 50, vel 67
     play(target)
 
@@ -135,7 +136,7 @@ def evalScore(playerScore):
         score = fileLine.split('-')
 
         if playerScore > int(score[1]):
-            drawHit()
+            draw('hit.art',1486)
             print("Success! You hit the target")
             print("You'd make Tyrone Slothrop proud with a score of {0:.0f}.\n" .format(playerScore))
             userName = input("Enter your name: ")
@@ -179,38 +180,55 @@ def setDiff():
             continue
 
 
-def drawLogo():
+#def drawLogo():
 
-    logo = open('logo.art')
-    logoDraw = logo.read()
+#    logo = open('logo.art')
+#    logoDraw = logo.read()
 
-    for n in range(50):
-        clear(100)
-        print(logoDraw)
-        print('\n' *  n)
-        print("Gravity's Rainbow: A post-modern rocket simulator!")
-        time.sleep(.05)
-    logo.close()
+#    for n in range(50):
+#        clear(100)
+#        print(logoDraw)
+#        print('\n' *  n)
+#        print("Gravity's Rainbow: A post-modern rocket simulator!")
+#        time.sleep(.05)
+#    logo.close()
 
 
-def drawHit():
-    f = open('hit.art')
-    offset = 1486
+#def drawHit():
+#    f = open('hit.art')
+#    offset = 1486
 
-    for r in range(7):
+#    for r in range(7):
         #line = f.readlines(1485)
         #for n in range(24):
         #    print(line[n].rstrip())
         #time.sleep(.5)
 
-        f.seek(offset * r)
-        line = f.readlines(1485)
+#        f.seek(offset * r)
+#        line = f.readlines(1485)
+#        for n in range(24):
+#            print(line[n].rstrip())
+
+#        time.sleep(.5)
+#        clear(55)
+#    f.close()
+
+def draw(file, offset):                         #draw() function
+    f = open(file)                              #draw(<filename.art>,offset)
+    frames = int((f.seek(0,2))/(offset -1))     #frame = x chars per frame, offset = chars per frame +1
+    f.seek(0)                                   #frame height = 24 lines to fit with 25x50 term window
+    for r in range(frames):    
+
+        f.seek((offset * r))
+        
+        line = f.readlines(offset)
         for n in range(24):
             print(line[n].rstrip())
-
         time.sleep(.5)
         clear(55)
+
     f.close()
+
 
 
 def clear(lines):
